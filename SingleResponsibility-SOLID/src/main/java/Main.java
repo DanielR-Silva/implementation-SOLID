@@ -13,27 +13,41 @@ public class Main {
                 new Broker("Jhonny", 25, "Sales"),
                 new Broker("Paul",36,"Sales")
         ));
+        showMenuOptions();
     }
 
     static void showMenuOptions() {
-        int option = 0;
         Map<String, Runnable> options = new LinkedHashMap<>();
         options.put("Register a new broker", Main::registerBroker);
         options.put("Register a new sale", Main::registerSale);
-        options.put("List all brokers", () -> FormattedMessages.formattedOutputAllBrokers(agency.getBrokers()));
-        options.put("Check sales", () -> FormattedMessages.formattedOutputAllSales(agency.getSales()));
-        options.put("Check total sales value", () -> FormattedMessages.formattedOutputTotalSalesValue(agency.getTotalSalesValue()));
-        options.put("Check commission for all sales by broker", () -> {});
-        options.put("Clear all sales records", () -> {});
+        options.put("List all brokers", () -> {
+            FormattedMessages.formattedOutputAllBrokers(agency.getBrokers());
+            Utils.delay(1000);
+            showMenuOptions();
+            });
+        options.put("Check sales", () -> {
+            FormattedMessages.formattedOutputAllSales(agency.getSales());
+        });
+        options.put("Check total sales value", () -> {
+            FormattedMessages.formattedOutputTotalSalesValue(agency.getTotalSalesValue());
+        });
+        options.put("Check commission for all sales by broker", Main::CheckCommissionForAllSalesByBroker);
+        options.put("Clear all sales records", agency::clearSalesRecords);
 
+        List<String> optionsList = options.keySet().stream().toList();
+
+        int chooseOption = 0;
         do {
             FormattedMessages.menuOptions(options);
-            if (scannerNum.nextInt() < options.size() || scannerNum.nextInt() > options.size()) {
+            chooseOption = scannerNum.nextInt();
+
+
+            if (chooseOption < 1 || chooseOption > options.size()) {
                 FormattedMessages.invalidInput();
-            }else {
-                option = scannerNum.nextInt();
+            } else {
+                options.get(optionsList.get(chooseOption - 1)).run();
             }
-        }while(option == 0);
+        } while (chooseOption == 0);
     }
 
     static void registerBroker() {

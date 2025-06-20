@@ -4,23 +4,23 @@ import java.util.Map;
 public class FormattedMessages {
     public static void menuOptions(Map<String, Runnable> options) {
         int i = 1;
-        System.out.print("Choose an option:");
+        System.out.println("\nChoose an option:");
         for (String optionText : options.keySet()) {
             System.out.printf("%d - %s\n", i++, optionText);
         }
     }
 
     public static void formattedOutputAllBrokers(List<Broker> brokers) {
-        System.out.printf("|%-6S|%-6S|%-6S|", "Name", "Age", "Sector");
+        System.out.printf("|%-8S|%-6S|%-6S|", "Name", "Age", "Sector");
         brokers.forEach(broker -> {
-            System.out.printf("\n|%-6S|%-6D|%-6S|", broker.getName(), broker.getAge(), broker.getSector());
+            System.out.printf("\n|%-8s|%-6d|%-6s|", broker.getName(), broker.getAge(), broker.getSector());
         });
     }
 
     public static void formattedOutputAllSales(List<Sale> sales) {
         System.out.printf("|%-6S|%-6S|%-12S|","Value","Date","Responsible Broker");
         sales.forEach(sale -> {
-            System.out.printf("\n|%-6.2f|%-6S|%-12S|",sale.getValue(),sale.getValue(),sale.getValue(),sale.getBroker().getName());
+            System.out.printf("\n|%-6.2f|%-6s|%-12s|",sale.getValue(),sale.getValue(),sale.getValue(),sale.getBroker().getName());
         });
     }
 
